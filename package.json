@@ -1,0 +1,30 @@
+{
+  "name": "async-examples",
+  "version": "0.0.1",
+  "description": "Async programming examples",
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint lib/",
+    "start": "node-dev --no-deps lib/server -- --harmony"
+  },
+  "repository": {
+    "url": "https://github.com/zen-js-code/async-examples.git",
+    "type": "git"
+  },
+  "author": "Dmitry Nutels <dnutels@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^3.13.1",
+    "eslint-config-airbnb-base": "^11.0.1",
+    "eslint-plugin-import": "^2.2.0",
+    "node-dev": "^3.1.3"
+  },
+  "dependencies": {
+    "express": "^4.14.0",
+    "morgan": "^1.7.0",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1",
+    "winston": "^2.3.0",
+    "yargs": "^6.6.0"
+  }
+}
