@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint lib/",
-    "start": "node-dev --no-deps lib/server -- --harmony"
+    "start": "node-dev --no-deps lib/server",
+    "execute": "node --harmony lib/index"
   },
   "repository": {
     "url": "https://github.com/zen-js-code/async-examples.git",
@@ -25,6 +26,6 @@
     "request": "^2.79.0",
     "request-promise": "^4.1.1",
     "winston": "^2.3.0",
-    "yargs": "^6.6.0"
+    "winston-console-formatter": "^0.3.1"
   }
 }

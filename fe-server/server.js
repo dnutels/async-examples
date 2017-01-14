@@ -13,7 +13,11 @@ const Logger = console;
 app.post('/api/customers', (req, res) => {
     const customerID = Math.random(0, 1);
 
-    res.status(200).send({customerID});
+    if (customerID < 0.99) {
+        res.status(201).send({customerID});
+    } else {
+        res.status(422).send({customerID});
+    }
 });
 
 app.post('/api/customers/:customerID/orders', (req, res) => {
