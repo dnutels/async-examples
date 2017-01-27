@@ -4,9 +4,8 @@
   "description": "Async programming examples",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint lib/",
-    "start": "node-dev --no-deps lib/server",
-    "execute": "node --harmony lib/index"
+    "lint": "eslint lib/ tests/",
+    "server": "node-dev --no-deps lib/server/"
   },
   "repository": {
     "url": "https://github.com/zen-js-code/async-examples.git",
