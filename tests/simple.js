@@ -1,31 +1,59 @@
 'use strict';
 
-const Logger = require('./logger');
+const Logger = require('../lib/common/logger');
 
 const {request, requestPromise} = require('./common');
 
-function test1() {
-    request.get({
-        url: '/test?q=1'
-    }, (err, info) => {
+function getUsers() {
+    request.get({url: '/users/'}, (err, response) => {
         if (!err) {
-            const {body} = info;
-            Logger.info(body);
+            const {body: users} = response;
+            Logger.info(users);
         } else {
             Logger.error(err);
         }
     });
 }
 
-function test2() {
-    return requestPromise.get({
-        url: '/test?q=2'
-    }).then((info) => {
-        Logger.info(info);
+function getUsersPromise() {
+    return requestPromise.get({url: '/users/'}).then((users) => {
+        Logger.info(users);
     }).catch((err) => {
         Logger.error(err);
     });
 }
 
-test1();
-test2();
+async function getUsersAsync() {
+    try {
+        const users = await requestPromise.get({url: '/users/'});
+        Logger.info(users);
+    } catch(err) {
+        Logger.error(err);
+    }
+}
+
+function requestWrapper(config) {
+    const it = (function *() {
+        const result = yield request.get(config, (err, response) => {
+            if (!err) {
+                const {body: users} = response;
+                it.next(users);
+            } else {
+                it.next(err);
+            }
+        });
+        Logger.info(result);
+    }());
+
+    return it;
+}
+
+function getUsersGenerator() {
+    const it = requestWrapper({url: '/users/'});
+    it.next();
+}
+
+getUsers();
+getUsersPromise();
+getUsersAsync();
+getUsersGenerator();
