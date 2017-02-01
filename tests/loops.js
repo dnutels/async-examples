@@ -38,5 +38,9 @@ function getFriends() {
     });
 }
 
+function getFriendsPromise() {
+
+}
+
 getFriends();
 getFriendsPromise();

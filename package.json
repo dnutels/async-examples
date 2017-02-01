@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint lib/ tests/",
-    "server": "node-dev --no-deps lib/server/"
+    "server": "nodemon lib/server/"
   },
   "repository": {
     "url": "https://github.com/zen-js-code/async-examples.git",
@@ -17,7 +17,7 @@
     "eslint": "^3.13.1",
     "eslint-config-airbnb-base": "^11.0.1",
     "eslint-plugin-import": "^2.2.0",
-    "node-dev": "^3.1.3"
+    "nodemon": "^1.11.0"
   },
   "dependencies": {
     "express": "^4.14.0",
