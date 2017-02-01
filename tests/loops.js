@@ -4,20 +4,11 @@ const Logger = require('../lib/common/logger');
 
 const {request, requestPromise} = require('./common');
 
-function getCitiesForUsers(cities, users) {
-    const westCoastUsers = users.filter((user) => {
-        return cities.includes(user.cityId);
-    });
-
-    return westCoastUsers;
-}
-
-function getFriendsCities() {
+function getFriends() {
     request.get({url: '/users/?filter=[uid1,uid2,uid3]'}, (err, response) => {
         if (!err) {
             const {body: users} = response;
             const friends = new Set();
-
             let count = users.length;
 
             users.forEach((user) => {
@@ -27,19 +18,7 @@ function getFriendsCities() {
                         count -= 1;
 
                         if (count === 0) {
-                            request.get({url: '/cities/'}, (err, response) => {
-                                if (!err) {
-                                    const {body: cities} = response;
-                                    const westCoastCities = cities.reduce((aggregator, city) => {
-                                        if (city.coast === 'West') {
-                                            aggregator.push(city.id);
-                                        }
-
-                                        return aggregator;
-                                    }, []);
-                                } else {
-
-                                }
+                            Logger.info(friends);
                         } else {
                             const {body: userFriends} = response;
 
@@ -52,10 +31,12 @@ function getFriendsCities() {
                     }
                 });
             });
+
         } else {
             Logger.error(err);
         }
     });
 }
 
-getFriendsCities();
+getFriends();
+getFriendsPromise();
