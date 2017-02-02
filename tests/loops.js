@@ -42,8 +42,8 @@ function processFriends(friendsForAllUsers) {
     return friends;
 }
 
-function getFriendsPromise() {
-    requestPromise.get({url: '/users/?filter=[cid1,cid2,cid8]'})
+function getFriendsPromise1() {
+    return requestPromise.get({url: '/users/?filter=[cid1,cid2,cid8]'})
         .then((users) => {
             const friendRequests = users.map(({id}) => {
                 return requestPromise.get({url: `/friends/${id}`});
@@ -55,6 +55,26 @@ function getFriendsPromise() {
             const friends = processFriends(friendsForAllUsers);
 
             Logger.info(new Set(friends));
+        })
+        .catch((err) => {
+            Logger.error(err);
+
+            throw err;
+        });
+}
+
+function getFriendsPromise2() {
+    requestPromise.get({url: '/users/?filter=[cid1,cid2,cid8]'})
+        .then((users) => {
+            const friendRequests = users.map(({id}) => {
+                return requestPromise.get({url: `/friends/${id}`});
+            });
+
+            Promise.all(friendRequests).then((friendsForAllUsers) => {
+                const friends = processFriends(friendsForAllUsers);
+
+                Logger.info(new Set(friends));
+            });
         })
         .catch((err) => {
             Logger.error(err);
@@ -100,7 +120,12 @@ async function getFriendsAsync2() {
     }
 }
 
-getFriends();
-getFriendsPromise();
+// getFriends();
+getFriendsPromise1().then((value) => {
+    console.log(value);
+}).catch((err) => {
+    console.log(err);
+});
+// getFriendsPromise2();
 // getFriendsAsync1();
-getFriendsAsync2();
+// getFriendsAsync2();
