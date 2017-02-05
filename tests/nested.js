@@ -20,6 +20,8 @@ function getFriendsCities() {
 
             let count = users.length;
 
+            console.log(users);
+
             users.forEach((user) => {
                 const {id} = user;
                 request.get({url: `/friends/${id}`}, (err, response) => {
@@ -38,8 +40,9 @@ function getFriendsCities() {
                                         return aggregator;
                                     }, []);
                                 } else {
-
+                                    Logger.error(err);
                                 }
+                            });
                         } else {
                             const {body: userFriends} = response;
 

@@ -2,6 +2,6 @@
 
 // require('./simple');
 // require('./multiple');
-// require('./nested');
+require('./nested');
 // require('./loops');
-require('./pitfalls');
+// require('./pitfalls');
