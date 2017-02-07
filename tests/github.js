@@ -2,21 +2,21 @@
 
 const Logger = require('../lib/common/logger');
 
-// const rq = require('request');
-// const rqp = require('request-promise');
-//
-// const CONFIG = {
-//     baseUrl: 'https://api.github.com',
-//     json: true,
-//     headers: {
-//         'User-Agent': '',
-//         'Authorization': 'token'
-//     }
-// };
+const rq = require('request');
+const rqp = require('request-promise');
 
-// const request = rq.defaults(CONFIG);
-// const requestPromise = rqp.defaults(CONFIG);
-//
+const CONFIG = {
+    baseUrl: 'https://api.github.com',
+    json: true,
+    headers: {
+        'User-Agent': '',
+        // 'Authorization': 'token'
+    }
+};
+
+const request = rq.defaults(CONFIG);
+const requestPromise = rqp.defaults(CONFIG);
+
 // function send(email, text, cb) {
 //     cb(null, 'OK');
 // }
@@ -223,32 +223,156 @@ const Logger = require('../lib/common/logger');
 //     Logger.error(3, err.message);
 // });
 
-let message = '';
+// let message = '';
+//
+// function foo() {
+//     message += 'a';
+// }
+//
+// function bar() {
+//     message += 'b';
+// }
+//
+// function baz() {
+//     message += 'c';
+// }
+//
+// foo();
+//
+// setTimeout(() => {
+//     bar();
+// }, 100);
+//
+// baz();
+//
+// function handler() {
+//     ...
+// }
+//
+// function retrieve() {
+//     fetch('...', handler);
+// }
 
-function foo() {
-    message += 'a';
+// function foo() {
+//     return new Promise((resolve, reject) => {
+//         setTimeout(() => {
+//             reject(100);
+//             resolve(100);
+//         }, 100);
+//     });
+// }
+//
+// foo().then((value) => {
+//     Logger.info(value);
+// }).catch((err) => {
+//     Logger.error(err);
+// });
+
+// function createFib(max) {
+//     let last = -1, current = 1;
+//
+//     return function() {
+//         [last, current] = [current, last + current];
+//
+//         if (current > max) {
+//             return;
+//         }
+//
+//         return current;
+//     };
+// }
+//
+// const fib = createFib(8);
+
+// function* createFib(max) {
+//     let last = -1, current = 1;
+//
+//     while (true) {
+//         [last, current] = [current, last + current];
+//
+//         if (current > max) {
+//             return;
+//         }
+//
+//         yield current;
+//     }
+// }
+//
+// for(let value of createFib(10)) {
+//     console.log(value);
+// }
+
+// function* sayHelloTo() {
+//     return `Hello, ${yield}!`;
+// }
+//
+// const hello = sayHelloTo();
+// hello.next();
+//
+// console.log(hello.next('world'));
+
+// const users = ['gaearon', 'jdalton', 'isaacs'];
+//
+// function getUser(name) {
+//     requestPromise.get({url: `users/${name}`}).then((user) => {
+//         it.next(user);
+//     }).catch((err) => {
+//         it.throw(err);
+//     });
+// }
+//
+// function* getUsers(name) {
+//     try {
+//         const user = yield getUser(name);
+//         console.log(user);
+//     } catch(err) {
+//         console.error(err);
+//     }
+// }
+//
+// const it = getUsers('gaearon');
+// it.next();
+
+function send(email, cb) {
+
 }
 
-function bar() {
-    message += 'b';
+function contactFollowers(name, emailText) {
+    request.get({url: `users/${name}/followers`}, (err, {body: followers}) => {
+        console.log(followers);
+        if (!err) {
+            followers.forEach((follower) => {
+                const {login} = follower;
+
+                request.get({url: `users/${login}`}, (err, {body: user}) => {
+                    if (!err) {
+                        const {email, hireable} = user;
+                        if (hireable) {
+                            send(email, emailText, (err, ack) => {
+                                if (!err) {
+                                    console.log(ack);
+                                } else {
+                                    console.error('MAIL', err);
+                                }
+                            });
+                        }
+                    } else {
+                        console.error('USER', err);
+                    }
+                });
+            });
+        } else {
+            console.error('FOLLOWER', err);
+        }
+    });
 }
+contactFollowers('gaearon', '...');
 
-function baz() {
-    message += 'c';
-}
+call(something, {
+    success: () => {...},
+    error: () => {...}
+});
 
-foo();
-
-setTimeout(() => {
-    bar();
-}, 100);
-
-baz();
-
-function handler() {
+[1, 2, ..., 100].forEach((item) => {
     ...
-}
-
-function retrieve() {
-    fetch('...', handler);
-}
+});

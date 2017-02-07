@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Highlight</title>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+    <style>
+        * {
+            box-sizing: border-box;
+            line-height: 1 !important;
+        }
+        .hljs {
+            background: white !important;
+        }
+
+        pre {
+            border: 1px dotted #cccccc;
+            font-family: Cousine !important;
+            font-size: 8pt;
+            line-height: 1.15 !important;
+        }
+
+        pre * {
+            font-family: Cousine !important;
+            font-size: 8pt;
+            line-height: 1.15 !important;
+        }
+    </style>
+</head>
+<body>
+    <textarea id="source" style="width: 97vw; height:30vh; scroll: auto;"></textarea>
+    <button>Highlight</button>
+    <pre><code id="target" class="javascript"></code></pre>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/styles/github.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            const $pre = $('#target');
+            const $textarea = $('#source');
+
+            $('button').on('click', () => {
+                const code = $textarea.val();
+                $pre.html(code);
+                hljs.highlightBlock($pre[0]);
+            });
+        });
+    </script>
+</html>
